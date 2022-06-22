@@ -15,10 +15,33 @@ class Profile extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'target',
+        'category',
         'sex',
-        'date_of_birth',
-        'photos'
+        'birthday',
+        'photos',
+        'look_for',
+        'life_motto',
+        'nationality',
+        'relationship_status',
+        'horoscope',
+        'height',
+        'job_position',
+        'month_salary',
+        'annual_salary',
+        'income_salary',
+        'educational_organisation',
+        'smoking',
+        'alcohol',
+        'animals',
+        'religion',
+        'orientation',
+        'education_degree',
+        'family_plans',
+        'hometown',
+        'political_views',
+        'languages',
+        'children',
+        'instagram'
     ];
 
     /**
@@ -28,7 +51,7 @@ class Profile extends Model
      */
     protected $casts = [
         'photos' => 'array',
-        'date_of_birth' => 'datetime',
+        'birthday' => 'datetime',
     ];
 
     public function user() {
