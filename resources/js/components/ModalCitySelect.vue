@@ -1,0 +1,150 @@
+<template>
+  <modal-base>
+    <header class="header">
+      <h2 class="title">Select a country</h2>
+      <div class="close"></div>
+    </header>
+    <div class="content">
+      <ul class="list">
+        <li
+          v-for="item of options"
+          :key="item.id"
+          class="list__option"
+          @click="
+            onClick(item.category, item.isChecked, item.id, item.isDisabled)
+          "
+        >
+          <label class="checkbox">
+            <input
+              type="checkbox"
+              class="checkbox__input"
+              v-model="item.isChecked"
+              :value="item.category"
+              :class="{ disable: item.isDisabled }"
+            />
+            <div class="checkbox__custom">
+              <div class="check_icon"></div>
+            </div>
+          </label>
+          <p class="text-base">{{ item.category }}</p>
+          <span v-if="selected === item" class="selected"></span>
+        </li>
+      </ul>
+    </div>
+  </modal-base>
+</template>
+<script>
+import ModalBase from "./UI/ModalBase.vue";
+
+export default {
+  name: "ModalCitySelect",
+  components: {
+    ModalBase,
+  },
+  data() {
+    return {
+      options: [
+        { id: 1, category: "Mosvow", isChecked: true, isDisabled: true },
+        {
+          id: 2,
+          category: "St. Petersberg",
+          isChecked: false,
+          isDisabled: true,
+        },
+        { id: 3, category: "Kiev", isChecked: false, isDisabled: true },
+        { id: 4, category: "New York", isChecked: false, isDisabled: true },
+        { id: 5, category: "Berlin", isChecked: false, isDisabled: true },
+        { id: 6, category: "Roma", isChecked: false, isDisabled: false },
+      ],
+      selected: "",
+    };
+  },
+  methods: {
+    onClick(category, isChecked, id) {
+      this.allCheckedsFalse();
+      this.selected = category;
+      this.$emit("selectCountry", { selected: category });
+      this.options[id - 1].isChecked = !isChecked;
+      console.log(this.options);
+    },
+
+    allCheckedsFalse() {
+      return [...this.options].map((item) => (item.isChecked = false));
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+
+  .title {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: no-repeat center center var(--color-light-10)
+    url("../assets/img/Close-light.svg");
+}
+
+.list {
+  background: var(--color-white);
+  padding: 0 16px;
+  margin-bottom: 20vh;
+
+  &__option {
+    height: 56px;
+    border-bottom: 1px solid var(--color-divider);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &:last-child {
+      border: none;
+    }
+
+    .selected {
+      width: 15px;
+      height: 15px;
+      background: no-repeat center center url("../assets/img/check.svg");
+      background-size: contain;
+      margin-right: 4px;
+    }
+  }
+}
+
+.checkbox {
+  position: relative;
+  top: -2px;
+  margin-right: 12px;
+
+  &__custom {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e6e4e3;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  &__input {
+    opacity: 0;
+    position: absolute;
+
+    &:checked + .checkbox__custom {
+      background-color: #e3b687;
+      border: 1px solid transparent;
+    }
+  }
+}
+</style>
